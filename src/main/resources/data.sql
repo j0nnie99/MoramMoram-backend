@@ -6,5 +6,4 @@ INSERT INTO user (id,email,name,pw) VALUES (2,'6candoit@naver.com','user','$2a$1
 
 INSERT INTO user_authority (id,authority_name) VALUES (1,'ROLE_ADMIN');
 INSERT INTO user_authority (id,authority_name) VALUES (1,'ROLE_USER');
-
 INSERT INTO user_authority (id,authority_name) VALUES (2,'ROLE_USER');

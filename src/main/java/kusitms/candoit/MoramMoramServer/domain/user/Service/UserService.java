@@ -114,7 +114,6 @@ public class UserService {
     @Transactional
     public ResponseEntity<UserDto.loginResponse> login(UserDto.login request) {
         LOGIN_VALIDATE(request);
-
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPw());
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
