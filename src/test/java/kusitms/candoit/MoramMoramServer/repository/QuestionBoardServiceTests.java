@@ -16,7 +16,7 @@ public class QuestionBoardServiceTests {
     public void testRegister(){
 
         QuestionBoardDTO questionBoardDTO = QuestionBoardDTO.builder()
-                .user_id(1L)
+                .userId(1L)
                 .title("제목")
                 .note("내용 입력")
                 .build();
@@ -24,15 +24,15 @@ public class QuestionBoardServiceTests {
         Long bno = questionBoardService.register(questionBoardDTO);
     }
 
-    @Test
-    public void testModify(){
-
-        //변경에 필요한 데이터만
-        QuestionBoardDTO questionBoardDTO = QuestionBoardDTO.builder()
-                .question_board_id(1L)
-                .title("Updated...........")
-                .build();
-
-        questionBoardService.modify(questionBoardDTO);
-    }
+   // @Test
+//    public void testModify(){
+//
+//        //변경에 필요한 데이터만
+//        QuestionBoardDTO questionBoardDTO = QuestionBoardDTO.builder()
+//                .questionBoardId(1L)
+//                .title("Updated...........")
+//                .build();
+//
+//        questionBoardService.modify(questionBoardDTO);
+//    }
 }

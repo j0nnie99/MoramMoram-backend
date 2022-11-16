@@ -24,7 +24,7 @@ public class QuestionBoardRepositoryTests {
     public void testInsert(){
         IntStream.rangeClosed(1,3).forEach(i->{
             QuestionBoard board = QuestionBoard.builder()
-                    .user_id((long) i)
+                    .userId((long) i)
                     .title("title...")
                     .note("content..."+i)
                     .build();

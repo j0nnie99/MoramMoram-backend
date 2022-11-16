@@ -15,14 +15,19 @@ import javax.persistence.*;
 @ToString
 @DynamicInsert
 @DynamicUpdate
+@Table(name = "QuestionBoard")
 public class QuestionBoard extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long question_board_id;
+    @Column(name = "questionBoardId")
+    private Long questionBoardId;
 
-    @Column(name = "user_id", nullable = false)
-    private Long user_id;
+    @Column(name = "userId", nullable = false)
+    private Long userId;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "title", length=100, nullable = false)
     private String title;
@@ -33,17 +38,17 @@ public class QuestionBoard extends BaseEntity{
     @Column(name = "img", columnDefinition = "TEXT")
     private String img;
 
-    @Column(name = "view_cnt")
+    @Column(name = "viewCnt")
     @ColumnDefault("0")
-    private Integer view_cnt;
+    private Integer viewCnt;
 
-    @Column(name = "like_cnt")
+    @Column(name = "likeCnt")
     @ColumnDefault("0")
-    private Integer like_cnt;
+    private Integer likeCnt;
 
-    @Column(name = "comment_cnt")
+    @Column(name = "commentCnt")
     @ColumnDefault("0")
-    private Integer comment_cnt;
+    private Integer commentCnt;
 
     //TODO default 값 지정
     @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'", nullable = false)
@@ -60,3 +65,4 @@ public class QuestionBoard extends BaseEntity{
         this.img = img;
     }
 }
+
