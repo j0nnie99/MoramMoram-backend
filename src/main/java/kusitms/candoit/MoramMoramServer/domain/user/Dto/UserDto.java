@@ -18,8 +18,6 @@ public class UserDto implements Serializable {
         private String pw;
         private String pnum;
         private String uimg;
-        private Boolean seller;
-        private Integer report;
         private Boolean maketing;
     }
 
@@ -64,6 +62,28 @@ public class UserDto implements Serializable {
 
         public static loginResponse response(String atk, String rtk) {
             return loginResponse.builder()
+                    .atk(atk)
+                    .rtk(rtk)
+                    .build();
+        }
+    }
+
+    @Data
+    @Builder
+    public static class socialLoginResponse {
+        private final String status;
+        private final String name;
+        private final String email;
+        private final String img;
+        private final String atk;
+        private final String rtk;
+
+        public static socialLoginResponse response(String name, String email, String img, String atk, String rtk, String status) {
+            return socialLoginResponse.builder()
+                    .status(status)
+                    .name(name)
+                    .email(email)
+                    .img(img)
                     .atk(atk)
                     .rtk(rtk)
                     .build();
