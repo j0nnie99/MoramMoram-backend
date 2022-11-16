@@ -28,8 +28,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Objects;
 
-import static kusitms.candoit.MoramMoramServer.global.Exception.CustomErrorCode.LOGIN_FALSE;
-import static kusitms.candoit.MoramMoramServer.global.Exception.CustomErrorCode.REFRESH_TOKEN_IS_BAD_REQUEST;
+import static kusitms.candoit.MoramMoramServer.global.Exception.CustomErrorCode.*;
 import static kusitms.candoit.MoramMoramServer.global.Model.Status.LOGOUT_TRUE;
 
 
@@ -66,6 +65,12 @@ public class UserService {
                         () -> new CustomException(LOGIN_FALSE)
                 );
 
+        if (request.getPw().equals("google"))
+            throw new CustomException(NOT_SOCIAL_LOGIN);
+
+        if (request.getPw().equals("kakao"))
+            throw new CustomException(NOT_SOCIAL_LOGIN);
+
         if (!passwordEncoder.matches(
                 request.getPw(),
                 userRepository.findByEmail(request.getEmail())
@@ -77,10 +82,37 @@ public class UserService {
         }
     }
 
+    private void REGISTER_VALIDATION(UserDto.register request) {
+/*        if (request.getEmail() == null || request.getPw() == null || request.getName() == null
+                || request.getWeight() == null || request.getHeight() == null)
+            throw new CustomException(REGISTER_INFO_NULL);*/
+        if(request.getEmail().contains("gmail") || request.getEmail().contains("daum")){
+            throw new CustomException(WANT_SOCIAL_REGISTER);
+        }
+
+        if (userRepository.existsByEmail(request.getEmail()))
+            throw new CustomException(DUPLICATE_USER);
+
+        if (!request.getEmail().contains("@"))
+            throw new CustomException(NOT_EMAIL_FORM);
+
+        if (!(request.getPw().length() > 5))
+            throw new CustomException(PASSWORD_SIZE_ERROR);
+
+        if (!(request.getPw().contains("!") || request.getPw().contains("@") || request.getPw().contains("#")
+                || request.getPw().contains("$") || request.getPw().contains("%") || request.getPw().contains("^")
+                || request.getPw().contains("&") || request.getPw().contains("*") || request.getPw().contains("(")
+                || request.getPw().contains(")"))
+        ) {
+            throw new CustomException(NOT_CONTAINS_EXCLAMATIONMARK);
+        }
+    }
+
     // Service
     // 회원가입
     @Transactional
     public ResponseEntity<UserDto.registerResponse> register(UserDto.register request) {
+        REGISTER_VALIDATION(request);
         userRepository.save(
                 User.builder()
                         .name(request.getName())
@@ -88,8 +120,8 @@ public class UserService {
                         .pw(passwordEncoder.encode(request.getPw()))
                         .pnum(request.getPnum())
                         .uimg(request.getUimg())
-                        .seller(request.getSeller())
-                        .report(request.getReport())
+                        .seller(false)
+                        .report(0)
                         .maketing(request.getMaketing())
                         .authorities(Collections.singleton(authority))
                         .build()
@@ -106,11 +138,11 @@ public class UserService {
         redisDao.setValues(request.getEmail(), rtk, Duration.ofDays(14));
 
         return new ResponseEntity<>(UserDto.registerResponse.response(
-                request.getEmail(),
                 request.getName(),
+                request.getEmail(),
                 atk,
                 rtk
-        ), HttpStatus.CREATED);
+        ), HttpStatus.OK);
     }
 
     //로그인
@@ -145,7 +177,7 @@ public class UserService {
         return new ResponseEntity<>(UserDto.loginResponse.response(
                 tokenProvider.reCreateToken(username),
                 null
-        ), HttpStatus.CREATED);
+        ), HttpStatus.OK);
     }
 
     // 정보 조회
