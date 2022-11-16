@@ -1,6 +1,7 @@
 package kusitms.candoit.MoramMoramServer.domain.board.Controller;
 
 import kusitms.candoit.MoramMoramServer.domain.board.Dto.QuestionBoardDTO;
+import kusitms.candoit.MoramMoramServer.domain.board.Dto.QuestionBoardLikeDTO;
 import kusitms.candoit.MoramMoramServer.domain.board.Service.QuestionBoardService;
 import kusitms.candoit.MoramMoramServer.domain.user.Dto.TokenInfoResponseDto;
 import kusitms.candoit.MoramMoramServer.domain.user.Repository.UserRepository;
@@ -70,6 +71,21 @@ public class BoardController {
         questionBoardService.modify(questionBoardId,questionBoardDTO);
 
         return new BaseResponse<>("내용 수정했습니다.");
+    }
+
+    @PostMapping(value = "/questionBoard/like")
+    public BaseResponse<Long> like(@RequestParam(value="post_id")Long questionBoardId){
+        Long id = getTokenInfo().getId();
+        String name = getTokenInfo().getName();
+
+        QuestionBoardLikeDTO questionBoardLikeDTO = QuestionBoardLikeDTO.builder()
+                .userId(id)
+                .name(name)
+                .build();
+
+        log.info("성공1");
+        Long likeId = questionBoardService.like(questionBoardId, questionBoardLikeDTO);
+        return new BaseResponse<>(likeId);
     }
 }
 

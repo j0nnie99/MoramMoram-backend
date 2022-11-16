@@ -64,5 +64,7 @@ public class QuestionBoard extends BaseEntity{
     public void changeImg(String img){
         this.img = img;
     }
+
+    public void updateLike(){this.likeCnt++;}
 }
 
