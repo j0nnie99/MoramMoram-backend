@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -19,12 +21,33 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     private String name;
-    @Column(name = "email", nullable = false, length = 500)
+
+    @NotNull
+    @Size(min = 1, max = 255)
     private String email;
-    @Column(name = "pw", nullable = false, length = 700)
+
+    @NotNull
+    @Size(min = 1, max = 255)
     private String pw;
+
+    @NotNull
+    @Size(min = 1, max = 255)
+    private String pnum;
+
+    @Size(min = 1, max = 1000)
+    private String uimg;
+
+    @NotNull
+    private Boolean seller;
+
+    @NotNull
+    private Integer report;
+
+    @NotNull
+    private Boolean maketing;
 
     @ManyToMany
     @JoinTable(
