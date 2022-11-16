@@ -1,7 +1,7 @@
 package kusitms.candoit.MoramMoramServer.domain.board.Service;
 
-import kusitms.candoit.MoramMoramServer.domain.board.Dto.PageResponseDTO;
 import kusitms.candoit.MoramMoramServer.domain.board.Dto.QuestionBoardDTO;
+import kusitms.candoit.MoramMoramServer.domain.board.Dto.QuestionBoardLikeDTO;
 
 import java.util.List;
 
@@ -16,4 +16,6 @@ public interface QuestionBoardService {
     void remove(Long questionBoardId);
 
     List<QuestionBoardDTO> getBoard(int page);
+
+    Long like(Long questionBoardId, QuestionBoardLikeDTO questionBoardLikeDTO);
 }

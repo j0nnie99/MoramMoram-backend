@@ -1,13 +1,13 @@
 package kusitms.candoit.MoramMoramServer.domain.board.Service;
 
-import kusitms.candoit.MoramMoramServer.domain.board.Dto.PageResponseDTO;
 import kusitms.candoit.MoramMoramServer.domain.board.Dto.QuestionBoardDTO;
-import kusitms.candoit.MoramMoramServer.domain.board.Entity.PageResponse;
+import kusitms.candoit.MoramMoramServer.domain.board.Dto.QuestionBoardLikeDTO;
 import kusitms.candoit.MoramMoramServer.domain.board.Entity.QuestionBoard;
+import kusitms.candoit.MoramMoramServer.domain.board.Entity.QuestionBoardLike;
+import kusitms.candoit.MoramMoramServer.domain.board.Repository.QuestionBoardLikeRepository;
 import kusitms.candoit.MoramMoramServer.domain.board.Repository.QuestionBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +27,8 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
 
     private final ModelMapper modelMapper;
     private final QuestionBoardRepository questionBoardRepository;
+
+    private final QuestionBoardLikeRepository questionBoardLikeRepository;
 
     @Override
     public Long register(QuestionBoardDTO questionBoardDTO) {
@@ -83,6 +85,23 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
         ).collect(Collectors.toList());
 
         return results;
+    }
+
+    @Override
+    public Long like(Long questionBoardId,  QuestionBoardLikeDTO questionBoardLikeDTO) {
+        //게시글 likeCnt update
+        Optional<QuestionBoard> result = questionBoardRepository.findById(questionBoardId);
+        QuestionBoard board = result.orElseThrow();
+
+        board.updateLike();
+        questionBoardRepository.save(board);
+        log.info("성공2");
+        //테이블 생성
+        QuestionBoardLike like = modelMapper.map(questionBoardLikeDTO, QuestionBoardLike.class);
+        Long likeId = questionBoardLikeRepository.save(like).getLikeId();
+        log.info("성공3");
+        return likeId;
+
     }
 
 
