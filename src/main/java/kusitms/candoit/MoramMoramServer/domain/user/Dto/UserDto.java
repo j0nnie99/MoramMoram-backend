@@ -2,19 +2,25 @@ package kusitms.candoit.MoramMoramServer.domain.user.Dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class UserDto implements Serializable {
 
-    @Data
+    @Getter
     @Builder
     public static class register {
-        private final Long id;
-        private final String name;
-        private final String email;
-        private final String pw;
+        private Long id;
+        private String name;
+        private String email;
+        private String pw;
+        private String pnum;
+        private String uimg;
+        private Boolean seller;
+        private Integer report;
+        private Boolean maketing;
     }
 
     @Data
