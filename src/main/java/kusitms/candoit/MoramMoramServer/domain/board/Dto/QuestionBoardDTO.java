@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -18,25 +20,29 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class QuestionBoardDTO {
 
-    private Long question_board_id;
+    private Long questionBoardId;
 
-    private Long user_id;
+    private Long userId;
 
+    private String name;
+
+    @NotEmpty
     private String title;
 
+    @NotEmpty
     private String note;
 
     private String img;
 
-    private Integer view_cnt;
+    private Integer viewCnt;
 
-    private Integer like_cnt;
+    private Integer likeCnt;
 
-    private Integer comment_cnt;
+    private Integer commentCnt;
 
     private String status;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 }
