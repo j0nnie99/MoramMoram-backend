@@ -43,8 +43,6 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisDao redisDao;
-    @Value("${jwt.token-validity-in-seconds}")
-    long tokenValidityInSeconds;
 
 
     Authority authority = Authority.builder()
@@ -88,6 +86,11 @@ public class UserService {
                         .name(request.getName())
                         .email(request.getEmail())
                         .pw(passwordEncoder.encode(request.getPw()))
+                        .pnum(request.getPnum())
+                        .uimg(request.getUimg())
+                        .seller(request.getSeller())
+                        .report(request.getReport())
+                        .maketing(request.getMaketing())
                         .authorities(Collections.singleton(authority))
                         .build()
         );

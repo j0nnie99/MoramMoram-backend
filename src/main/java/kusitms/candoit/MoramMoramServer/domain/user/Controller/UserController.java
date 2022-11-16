@@ -8,14 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("app")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
     // 로그인
-    @PostMapping("login")
+    @PostMapping("auth/login")
     public ResponseEntity<UserDto.loginResponse> login(
             @RequestBody UserDto.login request
     ) {
@@ -23,7 +23,7 @@ public class UserController {
     }
 
     // 회원가입
-    @PostMapping
+    @PostMapping("sign-up")
     public ResponseEntity<UserDto.registerResponse> register(
             @RequestBody UserDto.register request
     ) {
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     // 로그아웃
-    @DeleteMapping("logout")
+    @PatchMapping("auth/logout")
     public ResponseEntity<Status> logout(
             @RequestHeader(value = "Authorization") String auth
     ) {
