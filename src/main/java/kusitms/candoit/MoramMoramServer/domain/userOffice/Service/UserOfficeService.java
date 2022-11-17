@@ -36,7 +36,7 @@ public class UserOfficeService {
 /*        if (request.getEmail() == null || request.getPw() == null || request.getName() == null
                 || request.getWeight() == null || request.getHeight() == null)
             throw new CustomException(REGISTER_INFO_NULL);*/
-        if(request.getMaket_add() == null || request.getOffice_add() == null){
+        if(request.getMarket_add() == null || request.getOffice_add() == null){
             throw new CustomException(OFFICE_ADD_OR_MAKET_ADD_IS_REQUIRED);
         }
 
@@ -58,6 +58,31 @@ public class UserOfficeService {
         }
     }
 
+    private void LOGIN_VALIDATE(UserDto.login request) {
+        userRepository.findByEmail(request.getEmail())
+                .orElseThrow(
+                        () -> new CustomException(LOGIN_FALSE)
+                );
+
+        if (request.getPw().equals("google"))
+            throw new CustomException(NOT_SOCIAL_LOGIN);
+
+        if (request.getPw().equals("kakao"))
+            throw new CustomException(NOT_SOCIAL_LOGIN);
+
+        if (!passwordEncoder.matches(
+                request.getPw(),
+                userRepository.findByEmail(request.getEmail())
+                        .orElseThrow(
+                                () -> new CustomException(LOGIN_FALSE)
+                        ).getPw())
+        ) {
+            throw new CustomException(LOGIN_FALSE);
+        }
+    }
+
+    // Service
+
     public ResponseEntity<UserDto.registerResponse> register(UserDto.officeRegister request) {
         Authority authority = Authority.builder()
                 .authorityName("ROLE_OFFICE")
@@ -73,9 +98,9 @@ public class UserOfficeService {
                         .uimg(request.getUimg())
                         .seller(false)
                         .report(0)
-                        .maketing(request.getMaketing())
+                        .marketing(request.getMarketing())
                         .authorities(Collections.singleton(authority))
-                        .maketAdd(request.getMaket_add())
+                        .marketAdd(request.getMarket_add())
                         .officeAdd(request.getOffice_add())
                         .build()
         );
@@ -93,6 +118,24 @@ public class UserOfficeService {
         return new ResponseEntity<>(UserDto.registerResponse.response(
                 request.getName(),
                 request.getEmail(),
+                atk,
+                rtk
+        ), HttpStatus.OK);
+    }
+
+    public ResponseEntity<UserDto.loginResponse> login(UserDto.login request) {
+        LOGIN_VALIDATE(request);
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPw());
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String atk = tokenProvider.createToken(authentication);
+        String rtk = tokenProvider.createRefreshToken(request.getEmail());
+
+        redisDao.setValues(request.getEmail(), rtk, Duration.ofDays(14));
+
+        return new ResponseEntity<>(UserDto.loginResponse.response(
                 atk,
                 rtk
         ), HttpStatus.OK);

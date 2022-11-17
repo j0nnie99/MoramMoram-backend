@@ -20,4 +20,11 @@ public class UserOfficeController {
     ) {
         return userOfficeService.register(request);
     }
+
+    @PostMapping("auth/company/login")
+    public ResponseEntity<UserDto.loginResponse> login(
+            @RequestBody UserDto.login request
+    ) {
+        return userOfficeService.login(request);
+    }
 }
