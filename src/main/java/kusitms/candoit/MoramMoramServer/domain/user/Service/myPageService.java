@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,5 +45,21 @@ public class myPageService {
         userRepository.deleteById(getTokenInfo().getId());
 
         return new ResponseEntity<>(USER_DELETE_STATUS_TRUE, HttpStatus.OK);
+    }
+
+    // 회원 정보 보기
+    public ResponseEntity<UserDto.infoResponse> read() {
+
+        UserDto.infoResponse user = UserDto.infoResponse.response(
+                userRepository.findByEmail(
+                        SecurityContextHolder.getContext()
+                                .getAuthentication()
+                                .getName()
+                ).orElseThrow(
+                        NullPointerException::new
+                )
+        );
+
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +24,13 @@ public class myPageController {
             @RequestBody final UserDto.delete request
     ) {
         return myPageService.delete(request);
+    }
+
+    // 정보 조회
+    @GetMapping("user")
+    @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
+    public ResponseEntity<UserDto.infoResponse> read(
+    ) {
+        return myPageService.read();
     }
 }

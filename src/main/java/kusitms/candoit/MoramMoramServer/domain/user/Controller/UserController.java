@@ -47,12 +47,4 @@ public class UserController {
     ) {
         return userService.logout(auth);
     }
-
-    // 정보 조회
-    @GetMapping("info")
-    @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
-    public ResponseEntity<UserDto.infoResponse> read(
-    ) {
-        return userService.read();
-    }
 }
