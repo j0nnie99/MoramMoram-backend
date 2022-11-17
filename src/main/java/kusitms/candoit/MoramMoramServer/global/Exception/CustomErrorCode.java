@@ -22,6 +22,9 @@ public enum CustomErrorCode {
     DUPLICATE_USER("해당 이메일의 가입자가 이미 존재합니다."),
     WANT_SOCIAL_REGISTER("해당 이메일은 소셜로그인으로 진행해야 합니다."),
 
+    //회원탈퇴
+    USER_DELETE_STATUS_FALSE( "비밀번호가 일치하지 않아 탈퇴에 실패했습니다." ),
+
     // 알수 없는 오류의 처리
     INTERNAL_SERVER_ERROR("서버에 오류가 발생했습니다."),
     INVALID_REQUEST("잘못된 요청입니다.");
