@@ -49,6 +49,12 @@ public class User {
     @NotNull
     private Boolean maketing;
 
+    @Column(name = "office_add")
+    private String officeAdd;
+
+    @Column(name = "maket_add")
+    private String maketAdd;
+
     @ManyToMany
     @JoinTable(
             name = "user_authority",

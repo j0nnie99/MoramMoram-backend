@@ -5,6 +5,7 @@ import kusitms.candoit.MoramMoramServer.domain.user.Service.UserService;
 import kusitms.candoit.MoramMoramServer.global.Model.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,6 +41,7 @@ public class UserController {
 
     // 로그아웃
     @PatchMapping("auth/logout")
+    @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
     public ResponseEntity<Status> logout(
             @RequestHeader(value = "Authorization") String auth
     ) {
@@ -48,6 +50,7 @@ public class UserController {
 
     // 정보 조회
     @GetMapping("info")
+    @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
     public ResponseEntity<UserDto.infoResponse> read(
     ) {
         return userService.read();

@@ -18,7 +18,7 @@ public class myPageController {
 
     // 회원탈퇴
     @DeleteMapping("user")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
     public ResponseEntity<Status> deleteUser(
             @RequestBody final UserDto.delete request
     ) {

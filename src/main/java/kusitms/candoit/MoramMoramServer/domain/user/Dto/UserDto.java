@@ -16,6 +16,8 @@ public class UserDto implements Serializable {
     }
 
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @Builder
     public static class register {
         private Long id;
@@ -25,6 +27,22 @@ public class UserDto implements Serializable {
         private String pnum;
         private String uimg;
         private Boolean maketing;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class officeRegister {
+        private Long id;
+        private String name;
+        private String email;
+        private String pw;
+        private String pnum;
+        private String uimg;
+        private Boolean maketing;
+        private String office_add;
+        private String maket_add;
     }
 
     @Data

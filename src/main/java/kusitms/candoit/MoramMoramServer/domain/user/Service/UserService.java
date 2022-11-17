@@ -13,7 +13,6 @@ import kusitms.candoit.MoramMoramServer.global.config.Jwt.TokenProvider;
 import kusitms.candoit.MoramMoramServer.global.config.RedisDao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,11 +41,6 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisDao redisDao;
-
-
-    Authority authority = Authority.builder()
-            .authorityName("ROLE_USER")
-            .build();
 
     // Validate 및 단순화 메소드
 
@@ -112,6 +106,10 @@ public class UserService {
     // 회원가입
     @Transactional
     public ResponseEntity<UserDto.registerResponse> register(UserDto.register request) {
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
+                .build();
+
         REGISTER_VALIDATION(request);
         userRepository.save(
                 User.builder()
