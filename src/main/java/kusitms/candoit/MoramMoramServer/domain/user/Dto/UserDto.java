@@ -1,13 +1,19 @@
 package kusitms.candoit.MoramMoramServer.domain.user.Dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class UserDto implements Serializable {
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class delete {
+        private String pw;
+    }
 
     @Getter
     @Builder
