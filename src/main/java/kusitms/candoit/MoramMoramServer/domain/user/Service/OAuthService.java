@@ -139,7 +139,7 @@ public class OAuthService {
                         .uimg(request.getUimg())
                         .seller(false)
                         .report(0)
-                        .maketing(request.getMaketing())
+                        .marketing(request.getMarketing())
                         .authorities(Collections.singleton(authority))
                         .build()
         );

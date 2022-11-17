@@ -1,8 +1,11 @@
 package kusitms.candoit.MoramMoramServer.domain.user.Dto;
 
+import kusitms.candoit.MoramMoramServer.domain.user.Entity.User;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class UserDto implements Serializable {
@@ -26,7 +29,7 @@ public class UserDto implements Serializable {
         private String pw;
         private String pnum;
         private String uimg;
-        private Boolean maketing;
+        private Boolean marketing;
     }
 
     @Getter
@@ -40,9 +43,9 @@ public class UserDto implements Serializable {
         private String pw;
         private String pnum;
         private String uimg;
-        private Boolean maketing;
+        private Boolean marketing;
         private String office_add;
-        private String maket_add;
+        private String market_add;
     }
 
     @Data
@@ -117,14 +120,29 @@ public class UserDto implements Serializable {
     @Data
     @Builder
     public static class infoResponse {
+        private Long id;
+        private String name;
+        private String email;
+        private String pnum;
+        private String uimg;
+        private Boolean seller;
+        private Integer report;
+        private Boolean marketing;
+        private String officeAdd;
+        private String marketAdd;
 
-        private final String name;
-        private final String email;
-
-        public static infoResponse response(@NotNull String name, @NotNull String email) {
+        public static infoResponse response(@NotNull User user) {
             return infoResponse.builder()
-                    .email(email)
-                    .name(name)
+                    .id(user.getId())
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .pnum(user.getPnum())
+                    .uimg(user.getUimg())
+                    .seller(user.getSeller())
+                    .report(user.getReport())
+                    .marketing(user.getMarketing())
+                    .officeAdd(user.getOfficeAdd())
+                    .marketAdd(user.getMarketAdd())
                     .build();
         }
     }

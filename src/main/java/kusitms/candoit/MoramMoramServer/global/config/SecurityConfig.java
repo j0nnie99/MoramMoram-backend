@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/app/auth/login", "/app", "/app/sign-up", "/app/auth/login,", "/auth/kakao", "/auth/login/kakao"
-                        , "/auth/google", "/auth/login/google", "/auth/social/sign-up","/company-user/sign-up"
+                        , "/auth/google", "/auth/login/google", "/auth/social/sign-up","/company-user/sign-up","/auth/company/login"
                 )
                 .permitAll()
                 .anyRequest().authenticated()

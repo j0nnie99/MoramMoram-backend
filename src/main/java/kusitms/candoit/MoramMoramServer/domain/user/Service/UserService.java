@@ -120,7 +120,7 @@ public class UserService {
                         .uimg(request.getUimg())
                         .seller(false)
                         .report(0)
-                        .maketing(request.getMaketing())
+                        .marketing(request.getMarketing())
                         .authorities(Collections.singleton(authority))
                         .build()
         );
@@ -176,15 +176,6 @@ public class UserService {
                 tokenProvider.reCreateToken(username),
                 null
         ), HttpStatus.OK);
-    }
-
-    // 정보 조회
-    public ResponseEntity<UserDto.infoResponse> read() {
-        TokenInfoResponseDto userInfo = getTokenInfo();
-        return new ResponseEntity<>(UserDto.infoResponse.builder()
-                .email(userInfo.getEmail())
-                .name(userInfo.getName())
-                .build(), HttpStatus.OK);
     }
 
     // 로그아웃
