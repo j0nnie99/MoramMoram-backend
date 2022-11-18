@@ -32,8 +32,9 @@ public class FleamarketDto {
         private String category;
         private Boolean open;
         private String mImg;
+        private String count;
 
-        public static FleamarketDto.detail response(@NotNull Fleamarket fleamarket) {
+        public static FleamarketDto.detail response(@NotNull Fleamarket fleamarket,String count) {
             return detail.builder()
                     .id(fleamarket.getId())
                     .officeId(fleamarket.getOfficeId())
@@ -46,6 +47,7 @@ public class FleamarketDto {
                     .category(fleamarket.getCategory())
                     .open(fleamarket.getOpen())
                     .mImg(fleamarket.getMImg())
+                    .count(count)
                     .build();
         }
     }
