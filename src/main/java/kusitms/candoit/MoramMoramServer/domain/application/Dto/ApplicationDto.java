@@ -42,7 +42,7 @@ public class ApplicationDto {
 
     private String request;
 
-    public Application toEntity(){  // User user 추가 필요
+    public Application toEntity(){
 
         return Application.builder()
                 .storeName(storeName)
