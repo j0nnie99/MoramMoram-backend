@@ -47,10 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/app","/app/sign-up","/app/auth/login").permitAll()
+                .antMatchers(
+                        "/app/auth/login", "/app", "/app/sign-up", "/app/auth/login,", "/auth/kakao", "/auth/login/kakao"
+                        , "/auth/google", "/auth/login/google", "/auth/social/sign-up","/company-user/sign-up","/auth/company/login"
+                        , "/markets","/markets/","/markets/search"
+                )
+                .permitAll()
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider,redisDao));
+                .apply(new JwtSecurityConfig(tokenProvider, redisDao));
     }
 }

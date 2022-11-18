@@ -16,6 +16,19 @@ public enum CustomErrorCode {
 
     //회원가입
     REGISTER_INFO_NULL("필수 항목을 입력하지 않았습니다."),
+    PASSWORD_SIZE_ERROR("비밀번호가 6자리 이상이여야 합니다."),
+    NOT_EMAIL_FORM("이메일 형식이 아닙니다."),
+    NOT_CONTAINS_EXCLAMATIONMARK("비밀번호에 특수문자가 포함되어있지 않습니다."),
+    DUPLICATE_USER("해당 이메일의 가입자가 이미 존재합니다."),
+    WANT_SOCIAL_REGISTER("해당 이메일은 소셜로그인으로 진행해야 합니다."),
+
+    OFFICE_ADD_OR_MAKET_ADD_IS_REQUIRED("기업 회원가입은 사업자 등록증과 플리마켓 허가증은 필수입니다."),
+
+    //회원탈퇴
+    USER_DELETE_STATUS_FALSE( "비밀번호가 일치하지 않아 탈퇴에 실패했습니다." ),
+
+    //찜
+    ALREADY_LIKED("이미 찜한 플리마켓 입니다."),
 
     // 알수 없는 오류의 처리
     INTERNAL_SERVER_ERROR("서버에 오류가 발생했습니다."),
