@@ -1,23 +1,31 @@
 package kusitms.candoit.MoramMoramServer.domain.user.Service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import kusitms.candoit.MoramMoramServer.domain.user.Dto.TokenInfoResponseDto;
 import kusitms.candoit.MoramMoramServer.domain.user.Dto.UserDto;
+import kusitms.candoit.MoramMoramServer.domain.user.Entity.User;
 import kusitms.candoit.MoramMoramServer.domain.user.Repository.UserRepository;
 import kusitms.candoit.MoramMoramServer.global.Exception.CustomException;
 import kusitms.candoit.MoramMoramServer.global.Model.Status;
 import kusitms.candoit.MoramMoramServer.global.config.Jwt.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Objects;
 
 import static kusitms.candoit.MoramMoramServer.global.Exception.CustomErrorCode.USER_DELETE_STATUS_FALSE;
+import static kusitms.candoit.MoramMoramServer.global.Model.Status.PROFILE_IMAGE_UPLOAD_TRUE;
 import static kusitms.candoit.MoramMoramServer.global.Model.Status.USER_DELETE_STATUS_TRUE;
 
 @Service
@@ -26,6 +34,9 @@ import static kusitms.candoit.MoramMoramServer.global.Model.Status.USER_DELETE_S
 public class myPageService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AmazonS3Client amazonS3Client;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     private TokenInfoResponseDto getTokenInfo() {
         return TokenInfoResponseDto.Response(
@@ -60,6 +71,40 @@ public class myPageService {
                 )
         );
 
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Status> updateImage(MultipartFile multipartFile) throws IOException {
+        // String ext = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+        User user = userRepository.findByEmail(
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getName()
+        ).orElseThrow(
+                NullPointerException::new
+        );
+
+        String profile_image_name = "profile/" + getTokenInfo().getEmail();
+        ObjectMetadata objMeta = new ObjectMetadata();
+        objMeta.setContentLength(multipartFile.getInputStream().available());
+        amazonS3Client.putObject(bucket, profile_image_name, multipartFile.getInputStream(), objMeta);
+
+        userRepository.save(
+                User.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .pw(user.getPw())
+                        .pnum(user.getPnum())
+                        .seller(user.getSeller())
+                        .report(user.getReport())
+                        .officeAdd(user.getOfficeAdd())
+                        .marketAdd(user.getMarketAdd())
+                        .marketing(user.getMarketing())
+                        .authorities(user.getAuthorities())
+                        .uimg(amazonS3Client.getUrl(bucket, profile_image_name).toString())
+                        .build()
+        );
+
+        return new ResponseEntity<>(PROFILE_IMAGE_UPLOAD_TRUE, HttpStatus.OK);
     }
 }
