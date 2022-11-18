@@ -6,10 +6,10 @@ import kusitms.candoit.MoramMoramServer.global.Model.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,4 +33,24 @@ public class myPageController {
     ) {
         return myPageService.read();
     }
+
+    // 프로필 이미지 설정
+    @PostMapping("user")
+    @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
+    public ResponseEntity<Status> updateImage(
+            @RequestParam("file") MultipartFile multipartFile
+    ) throws IOException {
+        return myPageService.updateImage(multipartFile);
+    }
+
+    // 사업자 등록증 설정
+    @PostMapping("/certificates/license/new")
+    @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
+    public ResponseEntity<Status> licenseUpdate(
+            @RequestParam("file") MultipartFile multipartFile
+    ) throws IOException {
+        return myPageService.licenseUpdate(multipartFile);
+    }
+
+
 }

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +15,7 @@ import java.util.Date;
 @Entity
 @Table(name = "fleaMarket")
 @EntityListeners(AuditingEntityListener.class)
-public class fleaMarket {
+public class Fleamarket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +38,9 @@ public class fleaMarket {
     private LocalDate end;
 
     @NotNull
+    private LocalDate deadline;
+
+    @NotNull
     @Column(name = "m_note")
     private String mNote;
 
@@ -53,4 +55,5 @@ public class fleaMarket {
 
     @NotNull
     private String mImg;
+
 }

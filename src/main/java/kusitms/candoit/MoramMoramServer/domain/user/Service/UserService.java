@@ -44,15 +44,6 @@ public class UserService {
 
     // Validate 및 단순화 메소드
 
-    private TokenInfoResponseDto getTokenInfo() {
-        return TokenInfoResponseDto.Response(
-                Objects.requireNonNull(SecurityUtil.getCurrentUsername()
-                        .flatMap(
-                                userRepository::findOneWithAuthoritiesByEmail)
-                        .orElse(null))
-        );
-    }
-
     private void LOGIN_VALIDATE(UserDto.login request) {
         userRepository.findByEmail(request.getEmail())
                 .orElseThrow(
