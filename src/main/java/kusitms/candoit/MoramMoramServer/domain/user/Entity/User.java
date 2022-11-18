@@ -47,7 +47,13 @@ public class User {
     private Integer report;
 
     @NotNull
-    private Boolean maketing;
+    private Boolean marketing;
+
+    @Column(name = "office_add")
+    private String officeAdd;
+
+    @Column(name = "market_add")
+    private String marketAdd;
 
     @ManyToMany
     @JoinTable(
