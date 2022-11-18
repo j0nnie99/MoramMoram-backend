@@ -77,4 +77,9 @@ public class FleamarketService {
         );
         return new ResponseEntity<>(FLEAMARKET_LIKE_TRUE, HttpStatus.OK);
     }
+
+    public ResponseEntity<List<Fleamarket>> searchpage(String m_name) {
+        log.info(m_name);
+        return new ResponseEntity<>(fleamarketRepository.findByMarketNameContaining(m_name),HttpStatus.OK);
+    }
 }
