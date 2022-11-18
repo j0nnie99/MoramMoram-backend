@@ -43,7 +43,7 @@ public class ReplyController {
     }
 
 
-    @PostMapping(value="/comments/{questionBoardId}", consumes= MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="/questions/{questionBoardId}/replies", consumes= MediaType.APPLICATION_JSON_VALUE)
     public BaseResponse<Long> register(@PathVariable("questionBoardId") Long questionBoardId,
                                        @RequestBody QuestionReplyDTO questionReplyDTO) {
 
@@ -64,4 +64,7 @@ public class ReplyController {
 
         return new BaseResponse<>(questionReplyId);
     }
+
+    //댓글 삭제
+   // @DeleteMapping(value="/comments/delete?category=questions&post_id={postId}")
 }

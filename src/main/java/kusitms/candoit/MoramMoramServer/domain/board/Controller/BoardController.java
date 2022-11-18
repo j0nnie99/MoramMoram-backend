@@ -5,7 +5,6 @@ import kusitms.candoit.MoramMoramServer.domain.board.Dto.QuestionBoardLikeDTO;
 import kusitms.candoit.MoramMoramServer.domain.board.Service.QuestionBoardService;
 import kusitms.candoit.MoramMoramServer.domain.user.Dto.TokenInfoResponseDto;
 import kusitms.candoit.MoramMoramServer.domain.user.Repository.UserRepository;
-import kusitms.candoit.MoramMoramServer.domain.user.Service.UserService;
 import kusitms.candoit.MoramMoramServer.global.config.Jwt.SecurityUtil;
 import kusitms.candoit.MoramMoramServer.global.config.Response.BaseResponse;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +36,12 @@ public class BoardController {
     }
 
     @GetMapping(
-            value = "/questionBoard/list" )
+            value = "/questions/list" )
     public Object getList(@RequestParam(value="page", defaultValue="0") int page) throws Exception {
         return questionBoardService.getBoard(page);
     }
 
-    @PostMapping(value = "/questionBoard/register",
+    @PostMapping(value = "/questions",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -59,22 +58,22 @@ public class BoardController {
     }
 
     @GetMapping(
-            value = "/questionBoard/{questionBoardId}"
+            value = "/questions/{questionBoardId}"
     )
     public BaseResponse<QuestionBoardDTO> getOne(@PathVariable("questionBoardId") Long questionBoardId) throws Exception{
         QuestionBoardDTO questionBoardDTO = questionBoardService.readOne(questionBoardId);
         return new BaseResponse<>(questionBoardDTO);
     }
 
-    @PatchMapping(value = "/questionBoard/post/edit")
-    public BaseResponse<String> modifyOne(@RequestParam(value="post_id")Long questionBoardId, @RequestBody QuestionBoardDTO questionBoardDTO){
+    @PatchMapping(value = "/questions/{questionBoardId}")
+    public BaseResponse<String> modifyOne(@PathVariable("questionBoardId")Long questionBoardId, @RequestBody QuestionBoardDTO questionBoardDTO){
         questionBoardService.modify(questionBoardId,questionBoardDTO);
 
         return new BaseResponse<>("내용 수정했습니다.");
     }
 
-    @PostMapping(value = "/questionBoard/like")
-    public BaseResponse<Long> like(@RequestParam(value="post_id")Long questionBoardId){
+    @PostMapping(value = "/questions/{questionBoardId}/like")
+    public BaseResponse<Long> like(@PathVariable("questionBoardId")Long questionBoardId){
         Long id = getTokenInfo().getId();
         String name = getTokenInfo().getName();
 
