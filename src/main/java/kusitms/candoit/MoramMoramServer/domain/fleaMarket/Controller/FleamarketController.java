@@ -1,6 +1,7 @@
 package kusitms.candoit.MoramMoramServer.domain.fleaMarket.Controller;
 
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Dto.FleamarketDto;
+import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Entity.Fleamarket;
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Service.FleamarketService;
 import kusitms.candoit.MoramMoramServer.global.Model.Status;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,13 @@ public class FleamarketController {
             @RequestParam Long m_id
     ) {
         return fleamarketService.detailpage(m_id);
+    }
+
+    @GetMapping("markets/search")
+    public ResponseEntity<List<Fleamarket>> searchpage(
+        @RequestParam String m_name
+    ){
+        return fleamarketService.searchpage(m_name);
     }
 
     @PostMapping("wish")

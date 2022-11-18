@@ -38,7 +38,7 @@ public class FleamarketDto {
             return detail.builder()
                     .id(fleamarket.getId())
                     .officeId(fleamarket.getOfficeId())
-                    .mName(fleamarket.getMName())
+                    .mName(fleamarket.getMarketName())
                     .start(fleamarket.getStart())
                     .end(fleamarket.getEnd())
                     .deadline(fleamarket.getDeadline())
