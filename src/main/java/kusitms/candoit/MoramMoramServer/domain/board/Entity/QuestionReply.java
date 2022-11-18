@@ -1,17 +1,21 @@
 package kusitms.candoit.MoramMoramServer.domain.board.Entity;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="QuestionReply")
+@Table(name="Question_reply")
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "QuestionBoard")
+@DynamicInsert
+@DynamicUpdate
+@ToString(exclude = "Question_board")
 public class QuestionReply extends BaseEntity {
 
     @Id
@@ -24,7 +28,7 @@ public class QuestionReply extends BaseEntity {
     @Column(name = "note",columnDefinition = "TEXT", nullable = false)
     private String replyText;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @Column(name = "replyer", nullable = false)

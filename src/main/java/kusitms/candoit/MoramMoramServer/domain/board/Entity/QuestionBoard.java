@@ -15,15 +15,15 @@ import javax.persistence.*;
 @ToString
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "QuestionBoard")
+@Table(name = "question_board")
 public class QuestionBoard extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "questionBoardId")
+    @Column(name = "question_board_id")
     private Long questionBoardId;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @Column(name = "name", nullable = false)
@@ -38,15 +38,15 @@ public class QuestionBoard extends BaseEntity{
     @Column(name = "img", columnDefinition = "TEXT")
     private String img;
 
-    @Column(name = "viewCnt")
+    @Column(name = "view_cnt")
     @ColumnDefault("0")
     private Integer viewCnt;
 
-    @Column(name = "likeCnt")
+    @Column(name = "like_cnt")
     @ColumnDefault("0")
     private Integer likeCnt;
 
-    @Column(name = "commentCnt")
+    @Column(name = "comment_cnt")
     @ColumnDefault("0")
     private Integer commentCnt;
 
