@@ -41,13 +41,17 @@ public class ApplicationController {
     }
 
     // 내 신청서 모아보기
-    @GetMapping("/my-applications")
+    @GetMapping("")
     public ResponseEntity<?> myApplications(){
         List<Application> apps = applicationService.getMyApplications();
         return new ResponseEntity<>(apps, HttpStatus.OK);
     }
 
     // 신청서 상세보기
-
+    @GetMapping("?app_id={applicationId}")
+    public ResponseEntity<?> myApp(@PathVariable Long applicationId){
+        Application app = applicationService.getMyApp(applicationId);
+        return new ResponseEntity<>(app, HttpStatus.OK);
+    }
 
 }
