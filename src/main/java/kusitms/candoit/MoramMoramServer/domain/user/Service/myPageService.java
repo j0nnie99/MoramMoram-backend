@@ -23,10 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Objects;
+import java.util.UUID;
 
 import static kusitms.candoit.MoramMoramServer.global.Exception.CustomErrorCode.USER_DELETE_STATUS_FALSE;
-import static kusitms.candoit.MoramMoramServer.global.Model.Status.PROFILE_IMAGE_UPLOAD_TRUE;
-import static kusitms.candoit.MoramMoramServer.global.Model.Status.USER_DELETE_STATUS_TRUE;
+import static kusitms.candoit.MoramMoramServer.global.Model.Status.*;
 
 @Service
 @Slf4j
@@ -106,5 +106,40 @@ public class myPageService {
         );
 
         return new ResponseEntity<>(PROFILE_IMAGE_UPLOAD_TRUE, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Status> licenseUpdate(MultipartFile multipartFile) throws IOException {
+        // String ext = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+        User user = userRepository.findByEmail(
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getName()
+        ).orElseThrow(
+                NullPointerException::new
+        );
+
+        UUID uuid = UUID.randomUUID();
+
+        String officeAdd = "license/" + uuid;
+        ObjectMetadata objMeta = new ObjectMetadata();
+        objMeta.setContentLength(multipartFile.getInputStream().available());
+        amazonS3Client.putObject(bucket, officeAdd, multipartFile.getInputStream(), objMeta);
+
+        userRepository.save(
+                User.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .pw(user.getPw())
+                        .pnum(user.getPnum())
+                        .seller(user.getSeller())
+                        .report(user.getReport())
+                        .officeAdd(amazonS3Client.getUrl(bucket, officeAdd).toString())
+                        .marketAdd(user.getMarketAdd())
+                        .marketing(user.getMarketing())
+                        .authorities(user.getAuthorities())
+                        .uimg(user.getUimg())
+                        .build()
+        );
+        return new ResponseEntity<>(LICENSE_UPLOAD_TRUE, HttpStatus.OK);
     }
 }

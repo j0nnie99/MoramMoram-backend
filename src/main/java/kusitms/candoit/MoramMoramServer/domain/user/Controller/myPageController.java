@@ -43,5 +43,14 @@ public class myPageController {
         return myPageService.updateImage(multipartFile);
     }
 
+    // 사업자 등록증 설정
+    @PostMapping("/certificates/license/new")
+    @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
+    public ResponseEntity<Status> licenseUpdate(
+            @RequestParam("file") MultipartFile multipartFile
+    ) throws IOException {
+        return myPageService.licenseUpdate(multipartFile);
+    }
+
 
 }
