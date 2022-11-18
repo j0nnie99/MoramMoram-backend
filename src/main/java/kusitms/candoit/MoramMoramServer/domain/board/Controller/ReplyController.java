@@ -11,10 +11,7 @@ import kusitms.candoit.MoramMoramServer.global.config.Response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -66,5 +63,15 @@ public class ReplyController {
     }
 
     //댓글 삭제
-   // @DeleteMapping(value="/comments/delete?category=questions&post_id={postId}")
+    @DeleteMapping(value="/questions/replies/{replyId}")
+    public BaseResponse<String> remove(
+       @PathVariable("replyId") Long replyId) {
+
+        questionReplyService.remove(replyId);
+
+        return new BaseResponse<>("댓글 삭제했습니다.");
+    }
+
+
+
 }
