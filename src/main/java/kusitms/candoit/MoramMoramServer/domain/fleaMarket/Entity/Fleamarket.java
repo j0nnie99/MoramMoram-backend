@@ -26,8 +26,8 @@ public class Fleamarket {
     private Long officeId;
 
     @NotNull
-    @Column(name = "m_name")
-    private String mName;
+    @Column(name = "market_name")
+    private String marketName;
 
     @NotNull
     @Column(name = "start")
