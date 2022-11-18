@@ -8,14 +8,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="QuestionReply")
+@Table(name="Question_reply")
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-@ToString(exclude = "QuestionBoard")
+@ToString(exclude = "Question_board")
 public class QuestionReply extends BaseEntity {
 
     @Id
@@ -28,7 +28,7 @@ public class QuestionReply extends BaseEntity {
     @Column(name = "note",columnDefinition = "TEXT", nullable = false)
     private String replyText;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @Column(name = "replyer", nullable = false)
