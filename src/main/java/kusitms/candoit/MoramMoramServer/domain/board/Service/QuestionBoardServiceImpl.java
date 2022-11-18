@@ -45,7 +45,9 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
 
         Optional<QuestionBoard> result = questionBoardRepository.findById(questionBoardId);
         QuestionBoard board = result.orElseThrow();
-
+        //조회 수 추가
+        board.updateViewCnt();
+        questionBoardRepository.save(board);
         QuestionBoardDTO boardDTO = modelMapper.map(board, QuestionBoardDTO.class);
 
         return boardDTO;

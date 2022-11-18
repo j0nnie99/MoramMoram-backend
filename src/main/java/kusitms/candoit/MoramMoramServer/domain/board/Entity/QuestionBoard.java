@@ -66,5 +66,7 @@ public class QuestionBoard extends BaseEntity{
     }
 
     public void updateLike(){this.likeCnt++;}
+
+    public void updateViewCnt(){this.viewCnt++;}
 }
 
