@@ -62,13 +62,19 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
         result.ifPresent( board ->{
             if(questionBoardDTO.getTitle() != null){
                 board.changTitle(questionBoardDTO.getTitle());
+                log.info("제목 바꾸고 나서 -> "+board.getUpdatedAt());
+                log.info("맨처음 ->  "+board.getBoardDate());
             }
             if(questionBoardDTO.getNote()!=null){
                 board.changeNote(questionBoardDTO.getNote());
+                log.info("내용 바꾸고 나서 -> "+board.getUpdatedAt());
             }
             if(questionBoardDTO.getImg() !=null ){
                 board.changeImg(questionBoardDTO.getImg());
             }
+            //생성일 update
+            board.updateBoardDate();
+            log.info("최종 ->  "+board.getBoardDate());
             questionBoardRepository.save(board);
         });
     }
@@ -80,7 +86,7 @@ public class QuestionBoardServiceImpl implements QuestionBoardService {
 
     @Override
     public List<QuestionBoardDTO> getBoard(int page) {
-        Page<QuestionBoard> boards = questionBoardRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "updatedAt")));
+        Page<QuestionBoard> boards = questionBoardRepository.findAll(PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "boardDate")));
 
         List<QuestionBoardDTO> results = boards.getContent().stream().map(QuestionBoard ->
                 modelMapper.map(QuestionBoard, QuestionBoardDTO.class)

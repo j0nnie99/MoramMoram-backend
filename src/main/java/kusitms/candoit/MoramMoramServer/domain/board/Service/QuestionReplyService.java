@@ -8,4 +8,6 @@ import java.util.List;
 public interface QuestionReplyService {
 
     Long register(QuestionReplyDTO questionReplyDTO);
+
+    void remove(Long replyId);
 }

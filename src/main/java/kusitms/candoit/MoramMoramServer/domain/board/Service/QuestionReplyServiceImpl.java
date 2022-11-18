@@ -20,8 +20,17 @@ public class QuestionReplyServiceImpl implements QuestionReplyService{
 
         QuestionReply reply = modelMapper.map(questionReplyDTO, QuestionReply.class);
         log.info("여기는.....?");
+        //댓글 수 ++
+        reply.getQuestionBoard().updateReplyCnt();
+        //댓글 생성
         Long id = questionReplyRepository.save(reply).getQuestionReplyId();
 
         return id;
+    }
+
+    @Override
+    public void remove(Long replyId) {
+
+        questionReplyRepository.deleteById(replyId);
     }
 }
