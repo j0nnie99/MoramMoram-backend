@@ -7,6 +7,7 @@ import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Repository.FleamarketR
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Repository.LikeRepository;
 import kusitms.candoit.MoramMoramServer.domain.user.Entity.User;
 import kusitms.candoit.MoramMoramServer.domain.user.Repository.UserRepository;
+import kusitms.candoit.MoramMoramServer.global.Exception.CustomException;
 import kusitms.candoit.MoramMoramServer.global.Model.Status;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static kusitms.candoit.MoramMoramServer.global.Exception.CustomErrorCode.ALREADY_LIKED;
 import static kusitms.candoit.MoramMoramServer.global.Model.Status.FLEAMARKET_LIKE_TRUE;
 
 @Service
@@ -43,19 +45,28 @@ public class FleamarketService {
         return new ResponseEntity<>(fleamarketList, HttpStatus.OK);
     }
 
+    // 플리마켓 상세조회
     public ResponseEntity<FleamarketDto.detail> detailpage(Long m_id) {
-        log.info(m_id.toString());
+
         Fleamarket fleamarket = fleamarketRepository.findById(m_id).orElseThrow(
                 NullPointerException::new
         );
 
-        return new ResponseEntity<>(FleamarketDto.detail.response(fleamarket),HttpStatus.OK);
+        return new ResponseEntity<>(FleamarketDto.detail.response(
+                fleamarket, String.valueOf(
+                        likeRepository.countByMarketId(m_id)
+                )
+        ), HttpStatus.OK);
     }
 
     public ResponseEntity<Status> itemLike(FleamarketDto.like request) {
         User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(
                 NullPointerException::new
         );
+
+        if (likeRepository.findByMarketIdAndUserId(request.getMarketId(), user.getId()).isPresent()) {
+            throw new CustomException(ALREADY_LIKED);
+        }
 
         likeRepository.save(
                 Like.builder()
@@ -64,6 +75,6 @@ public class FleamarketService {
                         .name(user.getName())
                         .build()
         );
-        return new ResponseEntity<>(FLEAMARKET_LIKE_TRUE,HttpStatus.OK);
+        return new ResponseEntity<>(FLEAMARKET_LIKE_TRUE, HttpStatus.OK);
     }
 }
