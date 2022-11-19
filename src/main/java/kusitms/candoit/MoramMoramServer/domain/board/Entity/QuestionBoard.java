@@ -4,8 +4,10 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -46,9 +48,13 @@ public class QuestionBoard extends BaseEntity{
     @ColumnDefault("0")
     private Integer likeCnt;
 
-    @Column(name = "comment_cnt")
+    @Column(name = "reply_cnt")
     @ColumnDefault("0")
-    private Integer commentCnt;
+    private Integer replyCnt;
+
+    @CreatedDate
+    @Column(name = "board_date")
+    private LocalDateTime boardDate;
 
     //TODO default 값 지정
     @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'", nullable = false)
@@ -57,6 +63,8 @@ public class QuestionBoard extends BaseEntity{
     public void changTitle(String title){
         this.title = title;
     }
+
+    public void updateBoardDate(){this.boardDate = LocalDateTime.now();}
 
     public void changeNote(String note){
         this.note = note;
@@ -68,5 +76,7 @@ public class QuestionBoard extends BaseEntity{
     public void updateLike(){this.likeCnt++;}
 
     public void updateViewCnt(){this.viewCnt++;}
+
+    public void updateReplyCnt(){this.replyCnt++;}
 }
 
