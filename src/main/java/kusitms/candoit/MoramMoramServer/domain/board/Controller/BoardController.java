@@ -86,5 +86,14 @@ public class BoardController {
         Long likeId = questionBoardService.like(questionBoardId, questionBoardLikeDTO);
         return new BaseResponse<>(likeId);
     }
+
+    @DeleteMapping(value="/questions/{questionBoardId}")
+    public BaseResponse<String> remove(
+            @PathVariable("questionBoardId") Long questionBoardId) {
+
+        questionBoardService.remove(questionBoardId);
+
+        return new BaseResponse<>("게시글 삭제했습니다.");
+    }
 }
 

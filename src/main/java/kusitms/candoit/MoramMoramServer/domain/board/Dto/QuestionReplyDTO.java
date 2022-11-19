@@ -1,5 +1,6 @@
 package kusitms.candoit.MoramMoramServer.domain.board.Dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import kusitms.candoit.MoramMoramServer.domain.board.Entity.QuestionBoard;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class QuestionReplyDTO {
     @NotEmpty
     private String replyer;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt, updatedAt;
 
     private String status;
