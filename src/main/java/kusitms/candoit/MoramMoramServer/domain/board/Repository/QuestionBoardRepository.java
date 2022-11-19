@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuestionBoardRepository extends JpaRepository<QuestionBoard, Long> {
 
-    // @Query(value = "select title,viewCnt,likeCnt,createdAt,updatedAt from QuestionBoard")
     Page<QuestionBoard> findAll(Pageable pageable);
 
 }
