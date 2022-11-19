@@ -7,7 +7,6 @@ import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Repository.FleamarketR
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Repository.LikeRepository;
 import kusitms.candoit.MoramMoramServer.domain.user.Entity.User;
 import kusitms.candoit.MoramMoramServer.domain.user.Repository.UserRepository;
-import kusitms.candoit.MoramMoramServer.global.Exception.CustomException;
 import kusitms.candoit.MoramMoramServer.global.Model.Status;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kusitms.candoit.MoramMoramServer.global.Exception.CustomErrorCode.ALREADY_LIKED;
-import static kusitms.candoit.MoramMoramServer.global.Model.Status.FLEAMARKET_LIKE_TRUE;
+import static kusitms.candoit.MoramMoramServer.global.Model.Status.*;
 
 @Service
 @RequiredArgsConstructor
@@ -64,22 +62,31 @@ public class FleamarketService {
                 NullPointerException::new
         );
 
-        if (likeRepository.findByMarketIdAndUserId(request.getMarketId(), user.getId()).isPresent()) {
-            throw new CustomException(ALREADY_LIKED);
+        boolean present = likeRepository.findByMarketIdAndUserId(request.getMarketId(), user.getId()).isPresent();
+
+        if(present){
+            Long id = likeRepository.findByMarketIdAndUserId(request.getMarketId(), user.getId()).orElseThrow(
+                    NullPointerException::new
+            ).getId();
+            likeRepository.deleteById(
+                    id
+            );
+
+            return new ResponseEntity<>(LICENSE_UPLOAD_TRUE,HttpStatus.OK);
         }
 
         likeRepository.save(
-                Like.builder()
-                        .marketId(request.getMarketId())
-                        .userId(user.getId())
-                        .name(user.getName())
-                        .build()
-        );
-        return new ResponseEntity<>(FLEAMARKET_LIKE_TRUE, HttpStatus.OK);
+                    Like.builder()
+                            .marketId(request.getMarketId())
+                            .userId(user.getId())
+                            .name(user.getName())
+                            .build()
+            );
+            return new ResponseEntity<>(FLEAMARKET_LIKE_TRUE, HttpStatus.OK);
     }
 
     public ResponseEntity<List<Fleamarket>> searchpage(String m_name) {
         log.info(m_name);
-        return new ResponseEntity<>(fleamarketRepository.findByMarketNameContaining(m_name),HttpStatus.OK);
+        return new ResponseEntity<>(fleamarketRepository.findByMarketNameContaining(m_name), HttpStatus.OK);
     }
 }

@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface LikeRepository extends JpaRepository<Like, Long> {
     Long countByMarketId(Long market_id);
     Optional<Like> findByMarketIdAndUserId(Long market_id,Long user_id);
+
+    void deleteByMarketIdAndUserId(Long market_id,Long user_id);
 }

@@ -45,6 +45,8 @@ public class FleamarketController {
         return fleamarketService.searchpage(m_name);
     }
 
+
+    // 찜기능
     @PostMapping("wish")
     @PreAuthorize("hasAnyRole('ADMIN','USER','OFFICE')")
     public ResponseEntity<Status> itemLike(
