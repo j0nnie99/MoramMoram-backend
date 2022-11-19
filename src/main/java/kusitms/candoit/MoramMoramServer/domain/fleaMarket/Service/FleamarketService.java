@@ -71,8 +71,7 @@ public class FleamarketService {
             likeRepository.deleteById(
                     id
             );
-
-            return new ResponseEntity<>(LICENSE_UPLOAD_TRUE,HttpStatus.OK);
+            return new ResponseEntity<>(FLEAMARKET_CANCEL_TRUE,HttpStatus.OK);
         }
 
         likeRepository.save(

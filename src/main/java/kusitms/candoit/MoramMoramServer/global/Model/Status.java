@@ -14,6 +14,7 @@ public enum Status {
     USER_DELETE_STATUS_TRUE("회원탈퇴 성공"),
     PROFILE_IMAGE_UPLOAD_TRUE("이미지 업로드 성공"),
     LICENSE_UPLOAD_TRUE("사업자 등록증 업로드 성공"),
+    FLEAMARKET_CANCEL_TRUE("플리마켓 찜 취소 성공"),
     FLEAMARKET_LIKE_TRUE("플리마켓 찜하기 성공"),
     LOGOUT_TRUE("로그아웃 성공");
     private final String statusMessage;
