@@ -29,7 +29,10 @@ public class QuestionReplyDTO {
     private String replyer;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime createdAt, updatedAt;
+    private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime updatedAt;
 
     private String status;
 }
