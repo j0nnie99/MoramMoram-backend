@@ -16,6 +16,7 @@ public enum Status {
     LICENSE_UPLOAD_TRUE("사업자 등록증 업로드 성공"),
     FLEAMARKET_CANCEL_TRUE("플리마켓 찜 취소 성공"),
     FLEAMARKET_LIKE_TRUE("플리마켓 찜하기 성공"),
+    HOST_POST_ADD_TRUE("주최글 작성 성공"),
     LOGOUT_TRUE("로그아웃 성공");
     private final String statusMessage;
 }

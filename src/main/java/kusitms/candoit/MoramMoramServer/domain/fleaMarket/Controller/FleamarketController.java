@@ -54,4 +54,14 @@ public class FleamarketController {
     ){
         return fleamarketService.itemLike(request);
     }
+
+    // 주최 글 작성
+    @PostMapping("markets/register")
+    @PreAuthorize("hasAnyRole('OFFICE')")
+    public ResponseEntity<Status> hostpost_add(
+            @RequestBody FleamarketDto.hostpost_add request
+    ){
+        return fleamarketService.hostpost_add(request);
+    }
+
 }

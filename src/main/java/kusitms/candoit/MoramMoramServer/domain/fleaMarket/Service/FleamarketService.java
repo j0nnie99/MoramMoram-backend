@@ -2,8 +2,10 @@ package kusitms.candoit.MoramMoramServer.domain.fleaMarket.Service;
 
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Dto.FleamarketDto;
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Entity.Fleamarket;
+import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Entity.HostPost;
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Entity.Like;
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Repository.FleamarketRepository;
+import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Repository.HostPostRepository;
 import kusitms.candoit.MoramMoramServer.domain.fleaMarket.Repository.LikeRepository;
 import kusitms.candoit.MoramMoramServer.domain.user.Entity.User;
 import kusitms.candoit.MoramMoramServer.domain.user.Repository.UserRepository;
@@ -30,6 +32,7 @@ public class FleamarketService {
     private final FleamarketRepository fleamarketRepository;
     private final LikeRepository likeRepository;
     private final UserRepository userRepository;
+    private final HostPostRepository hostPostRepository;
 
     @Transactional
     public ResponseEntity<List<Object>> mainpage() {
@@ -58,7 +61,10 @@ public class FleamarketService {
     }
 
     public ResponseEntity<Status> itemLike(FleamarketDto.like request) {
-        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(
+        User user = userRepository.findByEmail(
+                SecurityContextHolder.getContext().getAuthentication().getName()
+                )
+                .orElseThrow(
                 NullPointerException::new
         );
 
@@ -87,5 +93,30 @@ public class FleamarketService {
     public ResponseEntity<List<Fleamarket>> searchpage(String m_name) {
         log.info(m_name);
         return new ResponseEntity<>(fleamarketRepository.findByMarketNameContaining(m_name), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Status> hostpost_add(FleamarketDto.hostpost_add request) {
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByEmail(name).orElseThrow(
+                NullPointerException::new
+        );
+
+        hostPostRepository.save(
+                HostPost.builder()
+                        .officeId(user.getId())
+                        .marketName(request.getMname())
+                        .start(request.getStart())
+                        .end(request.getEnd())
+                        .deadline(request.getDeadline())
+                        .mNote(request.getMnote())
+                        .place(request.getPlace())
+                        .category(request.getCategory())
+                        .open(request.getOpen())
+                        .mImg(request.getMimg())
+                        .build()
+        );
+
+        return new ResponseEntity<>(HOST_POST_ADD_TRUE,HttpStatus.OK);
     }
 }
