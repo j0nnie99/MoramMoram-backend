@@ -95,5 +95,11 @@ public class BoardController {
 
         return new BaseResponse<>("게시글 삭제했습니다.");
     }
+
+    @GetMapping(
+            value = "/questions/top-posts" )
+    public Object getTopPosts() throws Exception {
+        return questionBoardService.getTopPosts();
+    }
 }
 
