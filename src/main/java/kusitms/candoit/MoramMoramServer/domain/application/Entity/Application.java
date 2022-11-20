@@ -1,6 +1,7 @@
 package kusitms.candoit.MoramMoramServer.domain.application.Entity;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -26,7 +27,7 @@ public class Application {
 
     @NotNull
     @Column(name = "user_id")
-    @Size(min = 1, max = 255)
+    @Range(min = 1, max = 255)
     private Long userId;
 
     @NotNull
@@ -74,7 +75,7 @@ public class Application {
     @Column(name = "item_img", columnDefinition = "TEXT")
     private String itemImg;
 
-    @Size(min = 1, max = 255)
+    @Range(min = 1, max = 255)
     private String request;
 
     @Column(name="created_at")
