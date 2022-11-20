@@ -105,7 +105,7 @@ public class FleamarketService {
         hostPostRepository.save(
                 HostPost.builder()
                         .officeId(user.getId())
-                        .marketName(request.getMname())
+                        .marketName(request. getMname())
                         .start(request.getStart())
                         .end(request.getEnd())
                         .deadline(request.getDeadline())
@@ -118,5 +118,39 @@ public class FleamarketService {
         );
 
         return new ResponseEntity<>(HOST_POST_ADD_TRUE,HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<HostPost>> hostpost_read() {
+        return new ResponseEntity<>(hostPostRepository.findAll(),HttpStatus.OK);
+    }
+
+    public ResponseEntity<Status> hostpost_edit(Long m_id, FleamarketDto.hostpost_edit request) {
+        HostPost hostPost = hostPostRepository.findById(m_id).orElseThrow(
+                NullPointerException::new
+        );
+
+        hostPostRepository.save(
+                HostPost.builder()
+                        .id(m_id)
+                        .officeId(hostPost.getOfficeId())
+                        .marketName(request.getMname())
+                        .start(request.getStart())
+                        .end(request.getEnd())
+                        .deadline(request.getDeadline())
+                        .mNote(request.getMnote())
+                        .place(request.getPlace())
+                        .category(request.getCategory())
+                        .open(request.getOpen())
+                        .mImg(request.getMimg())
+                        .createAt(hostPost.getCreateAt())
+                        .build()
+        );
+
+        return new ResponseEntity<>(HOST_POST_EDIT_TRUE,HttpStatus.OK);
+    }
+
+    public ResponseEntity<Status> hostpost_delete(Long m_id) {
+        hostPostRepository.deleteById(m_id);
+        return new ResponseEntity<>(HOST_POST_DELETE_TRUE,HttpStatus.OK);
     }
 }
